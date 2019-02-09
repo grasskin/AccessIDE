@@ -219,7 +219,23 @@ function commandRead(command) {
         console.log(read(row, row));
         giveFeedback(read(row, row));
     } else if (command.includes("this block")) {
-        //TODO: scan through, figure out where paragraph ends
+        let start = editor.getCursorPosition().row;
+        let in_block = false;
+        let count = 0;
+        let line = 0;
+
+        while(!in_block || count > 0 && (start + line < editor.session.getLength())) {
+            let curr_line = aceDoc.getLine(start + line);
+
+                if (curr_line.includes("{")) {
+                    count++;
+                    in_block = true;
+                }
+                else if(curr_line.includes("}")){
+                    count--;
+                }
+            line++;
+        }
     }
 }
 
