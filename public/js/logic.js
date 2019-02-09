@@ -192,6 +192,7 @@ function commandRead(command) {
         let row = editor.getCursorPosition().row;
         let col = getLineLength(row + 1) - 1;
         let Range = ace.require('ace/range').Range;
+        console.log("hi");
         giveFeedback(read(row, row));
 
     } else if (command.includes("line")) {
