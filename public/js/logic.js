@@ -29,11 +29,12 @@ print "The meaning of life is " + whatIsLife
 function giveFeedback(text, exact) {
     feedbackDisplay(text);
 
-    let characters = ['(', ')', '{', '}', '[', ']', ';', ':', "\"", "\'"];
+    let characters = ['(', ')', '{', '}', '[', ']', ';', ':', "\"", "\'", ",", "."];
     let newWords = [" open parenthesis ", " close parenthesis ",
                     " open curly bracket ", " close curly bracket ",
                     " open square bracket ", " close square bracket ",
-                    " semicolon ", " colon ", " double quote ", " single quote "];
+                    " semicolon ", " colon ", " double quote ", " single quote ",
+                    " comma ", " period "];
 
     //removes characters to make text-to-speech better
     for(let i = 0; i < text.length; i++) {
