@@ -40,26 +40,28 @@ function checkError(error) {
 
 //adds checkpoints in a loaded file into the system
 function loadCheckpoints() {
+    console.log(checkpointNames);
     let allLines = [];
     allLines = aceDoc.getAllLines().slice();
     let symbol = " ~ ";
 
     for (let i = 0; i < allLines.length; i++) {
         if (allLines[i].includes("#" + symbol)) {
-            lineSplit = allLines[i].split(" ");
+            console.log(lineSplit = allLines[i].split(" "));
 
             for (let i = 0; i < lineSplit.lenght; i++) {
                 if (lineSplit[i].includes("~")) {
                     nameIndex = i + 2;
 
-                    name = lineSplit[nameIndex];
-                    name = name.substring(1, name.length - 1);
+                    console.log(name = lineSplit[nameIndex]);
+                    console.log(name = name.substring(1, name.length - 1));
 
                     checkpointNames.splice(0, 0, name);
                 }
             }
         }
     }
+    console.log(checkpointNames);
 }
 
 function runCommand(command) {
