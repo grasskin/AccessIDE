@@ -27,14 +27,14 @@ print "The meaning of life is " + whatIsLife
 `);
 
 function giveFeedback(text, exact) {
-    textToSpeech(text);
     feedbackDisplay(text);
 
-    let characters = ['(', ')', '{', '}', '[', ']', ';', ':', "\"", "\'"];
+    let characters = ['(', ')', '{', '}', '[', ']', ';', ':', "\"", "\'", ",", "."];
     let newWords = [" open parenthesis ", " close parenthesis ",
                     " open curly bracket ", " close curly bracket ",
                     " open square bracket ", " close square bracket ",
-                    " semicolon ", " colon ", " double quote ", " single quote "];
+                    " semicolon ", " colon ", " double quote ", " single quote ",
+                    " comma ", " period "];
 
     //removes characters to make text-to-speech better
     for(let i = 0; i < text.length; i++) {
@@ -56,11 +56,15 @@ function giveFeedback(text, exact) {
         }
     }
 
+    textToSpeech(text);
+
     console.log(text);
     return text;
 }
 
+let prevError = "";
 function checkError(error) {
+    prevError = error;
     if (error.includes('on line')) {
         error = 'Error ' + error.substr(error.indexOf('on line'), error.length);
     }
@@ -102,6 +106,8 @@ function runCommand(command) {
         commandMake(command);
     } else if (command.includes('save')) {
         commandSaveFile(command);
+    } else if (command.includes('error')) {
+        giveFeedback("Full Error: " + prevError);
     }
 }
 
