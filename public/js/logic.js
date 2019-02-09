@@ -28,6 +28,25 @@ print "The meaning of life is " + whatIsLife
 
 function giveFeedback(text) {
     feedbackDisplay(text);
+
+    let characters = ["(", ")", "{", "}", "[", "]", ";"];
+
+    for(let i = 0; i < text.length; i++) {
+        for(let j = 0; j < text.length; j++) {
+            for(let k = 0; k < characters.length; k++) {
+                if (text.indexOf(characters[k]) >= 0) {
+                    let index = text.indexOf(characters[k]);
+
+                    let first = text.substring(0, index);
+                    let second = text.substring(index + 1, text.length);
+
+                    text = first + " " + second;
+                }
+            }
+        }
+    }
+
+    console.log(text);
     return text;
 }
 
