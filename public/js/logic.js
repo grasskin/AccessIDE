@@ -266,31 +266,42 @@ function commandRead(command) {
         else giveFeedback(read(row, row), false);
     } else if (command.includes('this block')) {
         let start = editor.getCursorPosition().row;
-        let indent = 0;
-        for (let i = 0; i < start.length; i++) {
-            if (start.charAt(i) != '\t') {
-                indent = i;
-            }
-        }
-
-        let found = false;
-        let count = 0;
-        let line = 0;
         let end = 0;
-        let other_indent = 0;
-        while (!found) {
-            let curr_line = aceDoc.getLine(start + line);
-            for (let i = 0; i < curr_line.length; i++) {
-                if (start.charAt(i) != '\t') {
-                    other_indent = i;
-                }
+        for (let i = 0; i < editor.session.getLength(); i++) {
+            if (aceDoc.getLine(start + i) == '') {
+                end = start + i;
             }
-            if (other_indent == indent) {
-                end = start + line;
-                break;
-            }
-            line++;
         }
+        // let start = editor.getCursorPosition().row;
+        // let indent = 0;
+        // for(let i = 0; i < start.length; i++){
+        //     if(start.charAt(i) != "\t")
+        //     {
+        //         indent = i;
+        //     }
+        // }
+
+        // let found = false;
+        // let count = 0;
+        // let line = 0;
+        // let end = 0;
+        // let other_indent = 0;
+        // while(!found) {
+        //     let curr_line = aceDoc.getLine(start + line);
+        //     for(let i = 0; i < curr_line.length; i++){
+        //         if(start.charAt(i) != "\t")
+        //         {
+        //             other_indent = i;
+        //         }
+        //     }
+        //     if(other_indent == indent)
+        //     {
+        //         end = start + line;
+        //         break;
+        //     }
+        //     line++;
+        //   }
+        //}
         giveFeedback(read(start, end));
     }
 }
@@ -316,6 +327,9 @@ function read(from_row, to_row) {
     }
     if (result.charAt(result.length - 1) == '$') {
         result = result.substring(0, result.length - 1);
+    }
+    if (result.includes('$$')) {
+        result = result.substring(0, result.indexOf('$$'));
     }
     return result.replace('\t', '').trim();
 }
