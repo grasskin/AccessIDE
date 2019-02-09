@@ -60,7 +60,9 @@ function giveFeedback(text, exact) {
     return text;
 }
 
+let prevError = "";
 function checkError(error) {
+    prevError = error;
     if (error.includes('on line')) {
         error = 'Error ' + error.substr(error.indexOf('on line'), error.length);
     }
@@ -102,6 +104,8 @@ function runCommand(command) {
         commandMake(command);
     } else if (command.includes('save')) {
         commandSaveFile(command);
+    } else if (command.includes('error')) {
+        giveFeedback("Full Error: " + prevError);
     }
 }
 

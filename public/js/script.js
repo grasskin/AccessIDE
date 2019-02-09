@@ -75,5 +75,6 @@ function pythonSuccess() {
 function pythonError(error) {
     $("#output").css("color", "red")
     $("#feedbackBar").css("color", "red")
+    prevError = error;
     giveFeedback(checkError(error))
 }
