@@ -40,6 +40,7 @@ function textToSpeech(saveAudio) {
 // https://docs.microsoft.com/azure/cognitive-services/speech-service/language-support#text-to-speech
 function saveAudio(accessToken) {
     // Create the SSML request.
+    console.log()
     var doc = document.implementation.createDocument('', '', null);
     var speakElem = doc.createElement('speak');
     speakElem.setAttribute('version', '1.0');
@@ -54,13 +55,16 @@ function saveAudio(accessToken) {
     console.log(body);
 
     $.ajax({
-        url: 'https://eastus.tts.speech.microsoft.com/',
+        url: 'https://eastus.tts.speech.microsoft.com/cognitiveservices/v1',
         headers: {
             Authorization: 'Bearer ' + accessToken,
             'cache-control': 'no-cache',
             'X-Microsoft-OutputFormat': 'riff-24khz-16bit-mono-pcm',
             'Content-Type': 'application/ssml+xml',
-            'Access-Control-Allow-Origin': '*'
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods': 'DELETE, POST, GET, OPTIONS',
+            'Access-Control-Allow-Headers':
+                'Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With'
         },
         data: body,
         method: 'POST',
