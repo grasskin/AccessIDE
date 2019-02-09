@@ -44,18 +44,18 @@ function loadCheckpoints() {
     allLines = aceDoc.getAllLines().slice();
     let symbol = " ~ ";
 
-    for (let line of allLines) {
-        if (line.includes("#" + symbol)) {
-            lineSplit = line.split(" ");
+    for (let i = 0; i < allLines.length; i++) {
+        if (allLines[i].includes("#" + symbol)) {
+            lineSplit = allLines[i].split(" ");
 
-            for (let i in lineSplit) {
+            for (let i = 0; i < lineSplit.lenght; i++) {
                 if (lineSplit[i].includes("~")) {
                     nameIndex = i + 2;
 
                     name = lineSplit[nameIndex];
                     name = name.substring(1, name.length - 1);
 
-                    checkpointNames.splice(0, 0, lineSplit[nameIndex]);
+                    checkpointNames.splice(0, 0, name);
                 }
             }
         }
@@ -195,11 +195,11 @@ function commandRead(command) {
         giveFeedback(read(row, row));
 
     } else if (command.includes("line")) {
-        let num = getLineFromCommand(command);
-        goToLine(num);
+        let row = getLineFromCommand(command) - 1;
+        goToLine(row + 1);
         let col = getLineLength(row + 1) - 1;
         let Range = ace.require('ace/range').Range;
-        read(row + 1, row + 1);
+        giveFeedback(read(row, row));
     } else if (command.includes("this block")) {
         //TODO: scan through, figure out where paragraph ends
     }
