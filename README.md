@@ -10,13 +10,14 @@ HTML/CSS/Javascript, Node.js, Microsoft Azure
 ## Commands
 Current commands:
 ```
-Read (this/current) line
-Go to line <x>
-Go to end of line <x>
-Go to checkpoint <name>
-Go to loop <loop checkpoint name>
+Read current line (exact)
+
+Go to line <number>
+Go to end of line <number>
 
 Make new checkpoint <name>
+Go to checkpoint <name>
 
 Save file (as <name>)
+Read exact error
 ```
