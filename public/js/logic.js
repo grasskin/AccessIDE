@@ -30,22 +30,27 @@ function giveFeedback(text, exact) {
     textToSpeech(text);
     feedbackDisplay(text);
 
-    if(!exact) {
-        let characters = ['(', ')', '{', '}', '[', ']', ';', ':'];
+    let characters = ['(', ')', '{', '}', '[', ']', ';', ':'];
+    let newWords = [" open parenthesis ", " close parenthesis ",
+                    " open curly bracket ", " close curly bracket ",
+                    " open square bracket ", " close square bracket ",
+                    " semicolon ", " colon "];
 
-        //removes characters to make text-to-speech better
-        for(let i = 0; i < text.length; i++) {
-            for(let j = 0; j < text.length; j++) {
-                for(let k = 0; k < characters.length; k++) {
+    //removes characters to make text-to-speech better
+    for(let i = 0; i < text.length; i++) {
+        for(let j = 0; j < text.length; j++) {
+            for(let k = 0; k < characters.length; k++) {
 
-                    let index = text.indexOf(characters[k]);
+                let index = text.indexOf(characters[k]);
 
-                    if (index >= 0) {
-                        let first = text.substring(0, index);
-                        let second = text.substring(index + 1, text.length);
+                if (index >= 0) {
+                    let first = text.substring(0, index);
+                    let replace = " "
+                    if(exact)
+                        replace = newWords[k];
+                    let second = text.substring(index + 1, text.length);
 
-                        text = first + ' ' + second;
-                    }
+                    text = first + replace + second;
                 }
             }
         }
