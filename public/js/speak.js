@@ -14,9 +14,10 @@ const xmlbuilder = require('xmlbuilder');
  * replace process.env.SUBSCRIPTION_KEY with your subscription key as a string.
  */
 // Prompts the user to input text.
-let text = 'What would you like to convert to speech? ';
 
-function textToSpeech(saveAudio) {
+function textToSpeech(text) {
+    var msg = new SpeechSynthesisUtterance(text);
+    window.speechSynthesis.speak(msg);
     let options = {};
     // This function retrieve the access token and is passed as callback
     // to request below.
@@ -24,7 +25,7 @@ function textToSpeech(saveAudio) {
     $.ajax({
         url: 'https://eastus.api.cognitive.microsoft.com/sts/v1.0/issueToken',
         headers: {
-            'Ocp-Apim-Subscription-Key': '0892540b79ca4a2e83165de34e4b3130',
+            'Ocp-Apim-Subscription-Key': 'ee2fee869569403a92bf96155fdcb307',
             'Content-type': 'application/x-www-form-urlencoded'
         },
         data: '',
@@ -38,9 +39,9 @@ function textToSpeech(saveAudio) {
 // Make sure to update User-Agent with the name of your resource.
 // You can also change the voice and output formats. See:
 // https://docs.microsoft.com/azure/cognitive-services/speech-service/language-support#text-to-speech
-function saveAudio(accessToken) {
+function saveAudio(accessTok) {
     // Create the SSML request.
-    console.log()
+    console.log(accessTok);
     var doc = document.implementation.createDocument('', '', null);
     var speakElem = doc.createElement('speak');
     speakElem.setAttribute('version', '1.0');
@@ -57,14 +58,11 @@ function saveAudio(accessToken) {
     $.ajax({
         url: 'https://eastus.tts.speech.microsoft.com/cognitiveservices/v1',
         headers: {
-            Authorization: 'Bearer ' + accessToken,
             'cache-control': 'no-cache',
             'X-Microsoft-OutputFormat': 'riff-24khz-16bit-mono-pcm',
             'Content-Type': 'application/ssml+xml',
-            'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Methods': 'DELETE, POST, GET, OPTIONS',
-            'Access-Control-Allow-Headers':
-                'Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With'
+
+            Authorization: 'Bearer ' + accessTok
         },
         data: body,
         method: 'POST',
