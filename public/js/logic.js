@@ -189,7 +189,7 @@ function goToObject(command) {
             let line = editor.findNext("for ").startRow;
             let col = editor.findNext("for ").startColumn;
 
-            editor.insert(line.toString() + "\n" + col.toString());
+            //TODO
         } else if (command.includes("while")) {
             //TODO
         }
