@@ -29,25 +29,45 @@ print "The meaning of life is " + whatIsLife
 function giveFeedback(text, exact) {
     feedbackDisplay(text);
 
-    let characters = ['(', ')', '{', '}', '[', ']', ';', ':', "\"", "\'", ",", "."];
-    let newWords = [" open parenthesis ", " close parenthesis ",
-                    " open curly bracket ", " close curly bracket ",
-                    " open square bracket ", " close square bracket ",
-                    " semicolon ", " colon ", " double quote ", " single quote ",
-                    " comma ", " period "];
+    let characters = [
+        '(',
+        ')',
+        '{',
+        '}',
+        '[',
+        ']',
+        ';',
+        ':',
+        '"',
+        "'",
+        ',',
+        '.'
+    ];
+    let newWords = [
+        ' open parenthesis ',
+        ' close parenthesis ',
+        ' open curly bracket ',
+        ' close curly bracket ',
+        ' open square bracket ',
+        ' close square bracket ',
+        ' semicolon ',
+        ' colon ',
+        ' double quote ',
+        ' single quote ',
+        ' comma ',
+        ' period '
+    ];
 
     //removes characters to make text-to-speech better
-    for(let i = 0; i < text.length; i++) {
-        for(let j = 0; j < text.length; j++) {
-            for(let k = 0; k < characters.length; k++) {
-
+    for (let i = 0; i < text.length; i++) {
+        for (let j = 0; j < text.length; j++) {
+            for (let k = 0; k < characters.length; k++) {
                 let index = text.indexOf(characters[k]);
 
                 if (index >= 0) {
                     let first = text.substring(0, index);
-                    let replace = " "
-                    if(exact)
-                        replace = newWords[k];
+                    let replace = ' ';
+                    if (exact) replace = newWords[k];
                     let second = text.substring(index + 1, text.length);
 
                     text = first + replace + second;
@@ -62,7 +82,7 @@ function giveFeedback(text, exact) {
     return text;
 }
 
-let prevError = "";
+let prevError = '';
 function checkError(error) {
     prevError = error;
     if (error.includes('on line')) {
@@ -107,8 +127,16 @@ function runCommand(command) {
     } else if (command.includes('save')) {
         commandSaveFile(command);
     } else if (command.includes('error')) {
-        giveFeedback("Full Error: " + prevError);
+        giveFeedback('Full Error: ' + prevError);
+    } else if (command.includes('help')) {
+        listCommands();
     }
+}
+
+function listCommands() {
+    giveFeedback(
+        'Currently supported commands are: Make new checkpoint <name>, Go to line <x>, Go to end of line <x>, Go to checkpoint <name>, read this line, read line <x>, read line exact'
+    );
 }
 
 //saves a file, given the name
@@ -175,8 +203,9 @@ function getLineFromCommand(command) {
             'Line ' +
                 lineNum.toString() +
                 ' does not exist. Last line is ' +
-                lastLine.toString()
-        , false);
+                lastLine.toString(),
+            false
+        );
         return -1;
     }
 
@@ -225,27 +254,21 @@ function commandRead(command) {
         let col = getLineLength(row + 1) - 1;
         let Range = ace.require('ace/range').Range;
         console.log(read(row, row));
-        if(command.includes("exact"))
-            giveFeedback(read(row, row), true);
-        else
-            giveFeedback(read(row, row), false);
+        if (command.includes('exact')) giveFeedback(read(row, row), true);
+        else giveFeedback(read(row, row), false);
     } else if (command.includes('line')) {
         let row = getLineFromCommand(command) - 1;
         goToLine(row + 1);
         let col = getLineLength(row + 1) - 1;
         let Range = ace.require('ace/range').Range;
 
-        if(command.includes("exact"))
-            giveFeedback(read(row, row), true);
-        else
-            giveFeedback(read(row, row), false);
-            
+        if (command.includes('exact')) giveFeedback(read(row, row), true);
+        else giveFeedback(read(row, row), false);
     } else if (command.includes('this block')) {
         let start = editor.getCursorPosition().row;
         let indent = 0;
-        for(let i = 0; i < start.length; i++){
-            if(start.charAt(i) != "\t") 
-            {
+        for (let i = 0; i < start.length; i++) {
+            if (start.charAt(i) != '\t') {
                 indent = i;
             }
         }
@@ -255,16 +278,14 @@ function commandRead(command) {
         let line = 0;
         let end = 0;
         let other_indent = 0;
-        while(!found) {
+        while (!found) {
             let curr_line = aceDoc.getLine(start + line);
-            for(let i = 0; i < curr_line.length; i++){
-                if(start.charAt(i) != "\t") 
-                {
+            for (let i = 0; i < curr_line.length; i++) {
+                if (start.charAt(i) != '\t') {
                     other_indent = i;
                 }
             }
-            if(other_indent == indent)
-            {
+            if (other_indent == indent) {
                 end = start + line;
                 break;
             }
@@ -323,6 +344,7 @@ function goToCheckpoint(type, name) {
         }
     }
     giveFeedback(
-        "Checkpoint '" + name + "' of type '" + type + "' does not exist"
-    , false);
+        "Checkpoint '" + name + "' of type '" + type + "' does not exist",
+        false
+    );
 }
