@@ -214,14 +214,21 @@ function commandRead(command) {
         let col = getLineLength(row + 1) - 1;
         let Range = ace.require('ace/range').Range;
         console.log(read(row, row));
-        giveFeedback(read(row, row));
+        if(command.includes("exact"))
+            giveFeedback(read(row, row), true);
+        else
+            giveFeedback(read(row, row), false);
     } else if (command.includes('line')) {
         let row = getLineFromCommand(command) - 1;
         goToLine(row + 1);
         let col = getLineLength(row + 1) - 1;
         let Range = ace.require('ace/range').Range;
-        console.log(read(row, row));
-        giveFeedback(read(row, row));
+
+        if(command.includes("exact"))
+            giveFeedback(read(row, row), true);
+        else
+            giveFeedback(read(row, row), false);
+            
     } else if (command.includes('this block')) {
         let start = editor.getCursorPosition().row;
         let in_block = false;
