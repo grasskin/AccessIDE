@@ -1,3 +1,5 @@
+loadCheckpoints();
+
 $('.run-program').click(function () {
     runit();
 });
