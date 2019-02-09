@@ -29,7 +29,7 @@ print "The meaning of life is " + whatIsLife
 function giveFeedback(text) {
     feedbackDisplay(text);
 
-    let characters = ["(", ")", "{", "}", "[", "]", ";"];
+    let characters = ["(", ")", "{", "}", "[", "]", ";", ":"];
 
     //removes characters to make text-to-speech better
     for(let i = 0; i < text.length; i++) {
