@@ -15,8 +15,8 @@ const xmlbuilder = require('xmlbuilder');
  */
 // Prompts the user to input text.
 
-function textToSpeech() {
-    var msg = new SpeechSynthesisUtterance('Hello World');
+function textToSpeech(text) {
+    var msg = new SpeechSynthesisUtterance(text);
     window.speechSynthesis.speak(msg);
     let options = {};
     // This function retrieve the access token and is passed as callback
