@@ -46,10 +46,14 @@ function loadCheckpoints() {
 
     for (let i = 0; i < allLines.length; i++) {
         if (allLines[i].includes("#" + symbol)) {
+            lineSplit = allLines[i].split(" ");
 
             for (let i = 0; i < lineSplit.length; i++) {
                 if (lineSplit[i].includes("~")) {
                     nameIndex = i + 2;
+
+                    name = lineSplit[nameIndex];
+                    name = name.substring(1, name.length - 1);
 
                     checkpointNames.splice(0, 0, name);
                 }
@@ -184,8 +188,8 @@ function commandRead(command) {
         let row = editor.getCursorPosition().row;
         let col = getLineLength(row + 1) - 1;
         let Range = ace.require('ace/range').Range;
-        console.log("reading line");
-        giveFeedback(read(row, row + 1));
+        console.log(read(row, row));
+        giveFeedback(read(row, row));
 
     } else if (command.includes("line")) {
         let row = getLineFromCommand(command) - 1;
@@ -193,7 +197,7 @@ function commandRead(command) {
         let col = getLineLength(row + 1) - 1;
         let Range = ace.require('ace/range').Range;
         console.log("reading line " + (row + 1).toString());
-        giveFeedback(read(row, row + 1));
+        giveFeedback(read(row, row));
     } else if (command.includes("this block")) {
         //TODO: scan through, figure out where paragraph ends
     }
