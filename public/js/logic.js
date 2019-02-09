@@ -237,24 +237,35 @@ function commandRead(command) {
             
     } else if (command.includes('this block')) {
         let start = editor.getCursorPosition().row;
-        let in_block = false;
+        let indent = 0;
+        for(let i = 0; i < start.length; i++){
+            if(start.charAt(i) != "\t") 
+            {
+                indent = i;
+            }
+        }
+
+        let found = false;
         let count = 0;
         let line = 0;
-
-        while (
-            !in_block ||
-            (count > 0 && start + line < editor.session.getLength())
-        ) {
+        let end = 0;
+        let other_indent = 0;
+        while(!found) {
             let curr_line = aceDoc.getLine(start + line);
-
-            if (curr_line.includes('{')) {
-                count++;
-                in_block = true;
-            } else if (curr_line.includes('}')) {
-                count--;
+            for(let i = 0; i < curr_line.length; i++){
+                if(start.charAt(i) != "\t") 
+                {
+                    other_indent = i;
+                }
+            }
+            if(other_indent == indent)
+            {
+                end = start + line;
+                break;
             }
             line++;
         }
+        giveFeedback(read(start, end));
     }
 }
 
