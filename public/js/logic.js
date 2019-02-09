@@ -165,7 +165,7 @@ function getLineFromCommand(command) {
                 lineNum.toString() +
                 ' does not exist. Last line is ' +
                 lastLine.toString()
-        );
+        , false);
         return -1;
     }
 
@@ -184,7 +184,7 @@ function goToObject(command) {
         //if user mentions a checkpoint, goes to it
         for (let name in checkpointNames) {
             if (command.includes(name)) {
-                giveFeedback('Going to loop checkpoint ' + name);
+                giveFeedback('Going to loop checkpoint ' + name, false);
                 goToCheckpoint('loop', name);
             }
         }
@@ -201,7 +201,7 @@ function goToObject(command) {
     } else if (command.includes('checkpoint')) {
         for (let name of checkpointNames) {
             if (command.includes(name)) {
-                giveFeedback('Going to checkpoint ' + name);
+                giveFeedback('Going to checkpoint ' + name, false);
                 goToCheckpoint('checkpoint', name);
             }
         }
@@ -296,11 +296,11 @@ function goToCheckpoint(type, name) {
     for (let i = 0; i < allLines.length; i++) {
         if (allLines[i].includes(comment)) {
             goToLine(i + 2, 0);
-            giveFeedback('Now at ' + type + ' ' + name);
+            giveFeedback('Now at ' + type + ' ' + name, false);
             return;
         }
     }
     giveFeedback(
         "Checkpoint '" + name + "' of type '" + type + "' does not exist"
-    );
+    , false);
 }
