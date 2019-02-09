@@ -31,6 +31,7 @@ function giveFeedback(text) {
 
     let characters = ["(", ")", "{", "}", "[", "]", ";"];
 
+    //removes characters to make text-to-speech better
     for(let i = 0; i < text.length; i++) {
         for(let j = 0; j < text.length; j++) {
             for(let k = 0; k < characters.length; k++) {
