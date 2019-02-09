@@ -1,3 +1,5 @@
+loadCheckpoints();
+
 $('.run-program').click(function () {
     runit();
 });
@@ -33,6 +35,11 @@ function feedbackDisplay(feedback) {
 function commandDisplay(command) {
     command = command.trim();
     command = command.toLowerCase();
+    if (command.indexOf(".") >= 0) {
+        command = command.substring(0, command.length - 1);
+    }
+    runCommand(command)
+    editor.focus();
     $("#scriptBox").val(command);
     $("#scriptBox")
         .css("color", "#2e9dc6")
@@ -47,8 +54,6 @@ function commandDisplay(command) {
             $(this).css("color", "white");
             next();
     })
-    runCommand(command)
-    editor.focus();
 }
 
 function commandEntered(e) {
