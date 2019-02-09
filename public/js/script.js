@@ -33,6 +33,9 @@ function feedbackDisplay(feedback) {
 function commandDisplay(command) {
     command = command.trim();
     command = command.toLowerCase();
+    if (command.indexOf(".") >= 0) {
+        command = command.substring(0, command.length - 1);
+    }
     $("#scriptBox").val(command);
     $("#scriptBox")
         .css("color", "#2e9dc6")

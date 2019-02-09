@@ -192,15 +192,16 @@ function commandRead(command) {
         let row = editor.getCursorPosition().row;
         let col = getLineLength(row + 1) - 1;
         let Range = ace.require('ace/range').Range;
-        console.log("hi");
-        giveFeedback(read(row, row));
+        console.log("reading line");
+        giveFeedback(read(row, row + 1));
 
     } else if (command.includes("line")) {
         let row = getLineFromCommand(command) - 1;
         goToLine(row + 1);
         let col = getLineLength(row + 1) - 1;
         let Range = ace.require('ace/range').Range;
-        giveFeedback(read(row, row));
+        console.log("reading line " + (row + 1).toString());
+        giveFeedback(read(row, row + 1));
     } else if (command.includes("this block")) {
         //TODO: scan through, figure out where paragraph ends
     }
