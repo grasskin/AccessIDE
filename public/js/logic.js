@@ -237,11 +237,15 @@ function commandMake(command) {
 function read(from_row, to_row) {
     let lines = aceDoc.getLines(from_row, to_row);
     let result = "";
-    for(let i = 0; i < lines.length; i++) {
+    result += lines[0]
+    for(let i = 1; i < lines.length; i++) {
         lines[i] = lines[i].trim();
-        result += lines[i] + "$ ";
+        result += lines[i] + "$";
     }
-    return result;
+    if(result.charAt(result.length - 1) == "$") {
+        result = result.substring(0, result.length - 1)
+    }
+    return result.replace('\t','').trim();
 }
 
 function makeCheckpoint(type, name, line) {
