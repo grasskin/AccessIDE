@@ -65,7 +65,7 @@ function loadCheckpoints() {
 function runCommand(command) {
 
     for(let i of checkpointNames) {
-        editor.insert(i);
+        console.log(i);
     }
 
     if (command.includes("run")) {
