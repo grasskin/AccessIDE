@@ -59,7 +59,8 @@ function saveAudio(accessToken) {
             Authorization: 'Bearer ' + accessToken,
             'cache-control': 'no-cache',
             'X-Microsoft-OutputFormat': 'riff-24khz-16bit-mono-pcm',
-            'Content-Type': 'application/ssml+xml'
+            'Content-Type': 'application/ssml+xml',
+            'Access-Control-Allow-Origin': '*'
         },
         data: body,
         method: 'POST',
