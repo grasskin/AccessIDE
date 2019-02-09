@@ -28,6 +28,26 @@ print "The meaning of life is " + whatIsLife
 
 function giveFeedback(text) {
     feedbackDisplay(text);
+
+    let characters = ["(", ")", "{", "}", "[", "]", ";", ":"];
+
+    //removes characters to make text-to-speech better
+    for(let i = 0; i < text.length; i++) {
+        for(let j = 0; j < text.length; j++) {
+            for(let k = 0; k < characters.length; k++) {
+                if (text.indexOf(characters[k]) >= 0) {
+                    let index = text.indexOf(characters[k]);
+
+                    let first = text.substring(0, index);
+                    let second = text.substring(index + 1, text.length);
+
+                    text = first + " " + second;
+                }
+            }
+        }
+    }
+
+    console.log(text);
     return text;
 }
 
@@ -169,7 +189,7 @@ function goToObject(command) {
             let line = editor.findNext("for ").startRow;
             let col = editor.findNext("for ").startColumn;
 
-            editor.insert(line.toString() + "\n" + col.toString());
+            //TODO
         } else if (command.includes("while")) {
             //TODO
         }
@@ -199,7 +219,23 @@ function commandRead(command) {
         console.log(read(row, row));
         giveFeedback(read(row, row));
     } else if (command.includes("this block")) {
-        //TODO: scan through, figure out where paragraph ends
+        let start = editor.getCursorPosition().row;
+        let in_block = false;
+        let count = 0;
+        let line = 0;
+
+        while(!in_block || count > 0 && (start + line < editor.session.getLength())) {
+            let curr_line = aceDoc.getLine(start + line);
+
+                if (curr_line.includes("{")) {
+                    count++;
+                    in_block = true;
+                }
+                else if(curr_line.includes("}")){
+                    count--;
+                }
+            line++;
+        }
     }
 }
 
@@ -218,11 +254,15 @@ function commandMake(command) {
 function read(from_row, to_row) {
     let lines = aceDoc.getLines(from_row, to_row);
     let result = "";
-    for(let i = 0; i < lines.length; i++) {
+    result += lines[0]
+    for(let i = 1; i < lines.length; i++) {
         lines[i] = lines[i].trim();
-        result += lines[i] + "$ ";
+        result += lines[i] + "$";
     }
-    return result;
+    if(result.charAt(result.length - 1) == "$") {
+        result = result.substring(0, result.length - 1)
+    }
+    return result.replace('\t','').trim();
 }
 
 function makeCheckpoint(type, name, line) {
