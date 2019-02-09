@@ -49,7 +49,7 @@ function loadCheckpoints() {
         if (allLines[i].includes("#" + symbol)) {
             console.log(lineSplit = allLines[i].split(" "));
 
-            for (let i = 0; i < lineSplit.lenght; i++) {
+            for (let i = 0; i < lineSplit.length; i++) {
                 if (lineSplit[i].includes("~")) {
                     nameIndex = i + 2;
 
