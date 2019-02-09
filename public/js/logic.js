@@ -26,23 +26,26 @@ whatIsLife = str(calculateMeaning(x, y))
 print "The meaning of life is " + whatIsLife
 `);
 
-function giveFeedback(text) {
+function giveFeedback(text, exact) {
     textToSpeech(text);
     feedbackDisplay(text);
 
-    let characters = ['(', ')', '{', '}', '[', ']', ';', ':'];
+    if(!exact) {
+        let characters = ['(', ')', '{', '}', '[', ']', ';', ':'];
 
-    //removes characters to make text-to-speech better
-    for (let i = 0; i < text.length; i++) {
-        for (let j = 0; j < text.length; j++) {
-            for (let k = 0; k < characters.length; k++) {
-                if (text.indexOf(characters[k]) >= 0) {
+        //removes characters to make text-to-speech better
+        for(let i = 0; i < text.length; i++) {
+            for(let j = 0; j < text.length; j++) {
+                for(let k = 0; k < characters.length; k++) {
+
                     let index = text.indexOf(characters[k]);
 
-                    let first = text.substring(0, index);
-                    let second = text.substring(index + 1, text.length);
+                    if (index >= 0) {
+                        let first = text.substring(0, index);
+                        let second = text.substring(index + 1, text.length);
 
-                    text = first + ' ' + second;
+                        text = first + ' ' + second;
+                    }
                 }
             }
         }
