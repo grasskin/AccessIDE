@@ -27,14 +27,14 @@ print "The meaning of life is " + whatIsLife
 `);
 
 function giveFeedback(text, exact) {
-    textToSpeech(text);
     feedbackDisplay(text);
 
-    let characters = ['(', ')', '{', '}', '[', ']', ';', ':', "\"", "\'"];
+    let characters = ['(', ')', '{', '}', '[', ']', ';', ':', "\"", "\'", ",", "."];
     let newWords = [" open parenthesis ", " close parenthesis ",
                     " open curly bracket ", " close curly bracket ",
                     " open square bracket ", " close square bracket ",
-                    " semicolon ", " colon ", " double quote ", " single quote "];
+                    " semicolon ", " colon ", " double quote ", " single quote ",
+                    " comma ", " period "];
 
     //removes characters to make text-to-speech better
     for(let i = 0; i < text.length; i++) {
@@ -55,6 +55,8 @@ function giveFeedback(text, exact) {
             }
         }
     }
+
+    textToSpeech(text);
 
     console.log(text);
     return text;
@@ -240,24 +242,35 @@ function commandRead(command) {
             
     } else if (command.includes('this block')) {
         let start = editor.getCursorPosition().row;
-        let in_block = false;
+        let indent = 0;
+        for(let i = 0; i < start.length; i++){
+            if(start.charAt(i) != "\t") 
+            {
+                indent = i;
+            }
+        }
+
+        let found = false;
         let count = 0;
         let line = 0;
-
-        while (
-            !in_block ||
-            (count > 0 && start + line < editor.session.getLength())
-        ) {
+        let end = 0;
+        let other_indent = 0;
+        while(!found) {
             let curr_line = aceDoc.getLine(start + line);
-
-            if (curr_line.includes('{')) {
-                count++;
-                in_block = true;
-            } else if (curr_line.includes('}')) {
-                count--;
+            for(let i = 0; i < curr_line.length; i++){
+                if(start.charAt(i) != "\t") 
+                {
+                    other_indent = i;
+                }
+            }
+            if(other_indent == indent)
+            {
+                end = start + line;
+                break;
             }
             line++;
         }
+        giveFeedback(read(start, end));
     }
 }
 
