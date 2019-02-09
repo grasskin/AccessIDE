@@ -27,7 +27,6 @@ print "The meaning of life is " + whatIsLife
 `);
 
 function giveFeedback(text, exact) {
-    textToSpeech(text);
     feedbackDisplay(text);
 
     let characters = ['(', ')', '{', '}', '[', ']', ';', ':', "\"", "\'"];
@@ -55,6 +54,8 @@ function giveFeedback(text, exact) {
             }
         }
     }
+
+    textToSpeech(text);
 
     console.log(text);
     return text;
