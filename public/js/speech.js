@@ -12,7 +12,7 @@ var speechConfig;
 var doVoice = 1;
 
 document.addEventListener('DOMContentLoaded', function() {
-    subscriptionKey = 'a23b0fdd276340c293953660d299c231';
+    subscriptionKey = 'f0f2c87da4814ab2a62a15fc6a9f9b15';
     serviceRegion = 'eastus2';
 
     // if we got an authorization token, use the token. Otherwise use the provided subscription key
